@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Create Schema
 const userSchema = new mongoose.Schema({
-  name: String,
+  username: String,
   email: { type: String, unique: true },
   password: String,
 });
@@ -27,16 +27,28 @@ const User = mongoose.model('User', userSchema);
 // Route to store user data
 app.post('/api/users', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    console.log("📩 Incoming request:", req.body); // ✅ Debug incoming data
+
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: "All fields are required!" });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'Email already registered' });
+      console.log("⚠️ Email already registered:", email);
+      return res.status(400).json({ message: "Email already registered" });
     }
-    const newUser = new User({ name, email, password });
+
+    const newUser = new User({ username, email, password });
     await newUser.save();
-    res.json({ message: 'User registered successfully!' });
+    console.log("✅ User saved:", newUser);
+
+    res.json({ message: "User registered successfully!" });
   } catch (error) {
-    res.status(500).json({ message: 'Error saving user', error });
+    console.error("❌ Error saving user:", error);
+    res.status(500).json({ message: "Error saving user", error: error.message });
   }
 });
 
@@ -53,5 +65,5 @@ app.get('/api/users', async (req, res) => {
 // Start Server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:PORT`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
