@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const todoRoutes = require("./routes/todoroutes");
 
 const app = express();
 app.use(express.json());
@@ -82,6 +83,9 @@ app.get('/api/signup', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch users' });
   }
 });
+
+// Use user and todo routes
+app.use('/api/todos', todoRoutes); // Use the To-Do routes
 
 // Start Server
 const PORT = process.env.PORT || 5000;
