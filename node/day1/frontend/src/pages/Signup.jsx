@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+
 
 const Signup = ({ switchToLogin }) => {
     const [name, setName] = useState('');

@@ -1,5 +1,5 @@
 // App.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -10,6 +10,7 @@ const App = () => {
 
     const switchToLogin = () => setShowSignup(false);
     const switchToSignup = () => setShowSignup(true);
+
 
     return (
         <Router>
