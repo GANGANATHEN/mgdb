@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const ToDoList = () => {
     const [todos, setTodos] = useState([]);
     const [task, setTask] = useState('');
     const [userId, setUserId] = useState(localStorage.getItem('userId') || ''); // Get userId from storage
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!userId) {
@@ -119,6 +122,9 @@ const ToDoList = () => {
             ) : (
                 <p style={{ color: 'red' }}>User ID is missing! Please log in.</p>
             )}
+            <div>
+                <button onClick={()=> navigate('/')}>SignUp</button>
+            </div>
         </div>
     );
 };
